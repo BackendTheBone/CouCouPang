@@ -1,1 +1,1 @@
-# ssafy-commerce
+# coucoupang
