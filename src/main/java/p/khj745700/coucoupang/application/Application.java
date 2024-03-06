@@ -1,4 +1,4 @@
-package com.ssafy.commerce.application;
+package p.khj745700.coucoupang.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
