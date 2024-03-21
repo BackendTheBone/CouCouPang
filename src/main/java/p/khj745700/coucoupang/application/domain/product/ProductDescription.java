@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import p.khj745700.coucoupang.application.domain.common.CommonEntity;
 import p.khj745700.coucoupang.application.domain.member.Member;
+import p.khj745700.coucoupang.application.domain.member.Seller;
 
 @Entity
 @Table
@@ -26,7 +27,7 @@ public class ProductDescription extends CommonEntity {
 
     @JoinColumn
     @ManyToOne
-    private Member seller;
+    private Seller seller;
 
     @Column
     private String color;
