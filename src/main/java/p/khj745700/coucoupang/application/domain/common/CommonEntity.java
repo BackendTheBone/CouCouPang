@@ -16,11 +16,13 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @EntityListeners(AuditingEntityListener.class)
 public abstract class CommonEntity {
-    @Column
+
     @CreatedDate
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column
+
     @LastModifiedDate
+    @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 }
