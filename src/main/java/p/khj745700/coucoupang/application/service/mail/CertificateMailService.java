@@ -1,8 +1,11 @@
 package p.khj745700.coucoupang.application.service.mail;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 import p.khj745700.coucoupang.application.config.constant.RedisConstant;
 import p.khj745700.coucoupang.application.dao.MailCertificationDao;
 import p.khj745700.coucoupang.application.dto.request.member.EmailCertificateRequest;
@@ -12,9 +15,9 @@ import p.khj745700.coucoupang.application.vo.MailCeritificationVO;
 
 import java.util.Objects;
 
+@Component
 @RequiredArgsConstructor
 public class CertificateMailService implements ICertificateMailService{
-    private final StringRedisTemplate redisTemplate;
     private final UUIDGenerator uuidGenerator;
     private final ApplicationEventPublisher eventPublisher;
     private final CertificationGenerator certificationGenerator;

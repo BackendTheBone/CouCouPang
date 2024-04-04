@@ -4,6 +4,7 @@ import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,12 +19,13 @@ public class CertificationMailSender {
 
     private final TemplateEngine templateEngine;
 
-    @Value("${spring.mail.username}") private final String username;
+    @Value("${spring.mail.username}") private String username;
 
     public void sendEmail(String toEmail, String certificationNumber) {
         try {
             MimeMessage emailForm = createEmailForm(toEmail, certificationNumber);
             emailSender.send(emailForm);
+
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
