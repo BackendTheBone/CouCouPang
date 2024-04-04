@@ -18,7 +18,6 @@ import static p.khj745700.coucoupang.application.dto.response.ResponseConstants.
 @RequestMapping("/member")
 public class MemberController {
     private final IFindMemberService findMemberService;
-    private final IModifyMemberService modifyMemberService;
     private final IWithdrawMemberService withdrawMemberService;
 
 
