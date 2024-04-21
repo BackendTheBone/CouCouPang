@@ -3,7 +3,6 @@ package p.khj745700.coucoupang.application.utils;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,13 +10,14 @@ import org.springframework.stereotype.Component;
 import p.khj745700.coucoupang.application.config.constant.S3DirConstant;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.Base64;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,9 +30,23 @@ public class S3Uploader {
 
     private final UUIDGenerator uuidGenerator;
 
+    public String upload(String base64, String filename, S3DirConstant s3DirConstant) {
+        Base64.Decoder decoder = Base64.getDecoder();
+        byte[] bytes = decoder.decode(base64);
+        File f = new File(filename);
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(f);
+            fileOutputStream.write(bytes);
+            fileOutputStream.flush();
+            return upload(f, s3DirConstant);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public String upload(File uploadFile, S3DirConstant s3DirConstant) {
-        String fileName = s3DirConstant.getBaseDir() + "/" + uuidGenerator.get() + URLEncoder.encode(uploadFile.getName(), StandardCharsets.UTF_8); // UUID + fileName으로 작성
+        LocalDateTime now = LocalDateTime.now();
+        String fileName = s3DirConstant.getBaseDir() + "/" + now.getYear() + "/" + now.getMonth() + "/" + uuidGenerator.get() + URLEncoder.encode(uploadFile.getName(), StandardCharsets.UTF_8); // UUID + fileName으로 작성
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)

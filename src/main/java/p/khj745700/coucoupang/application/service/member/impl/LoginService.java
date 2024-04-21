@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import p.khj745700.coucoupang.application.config.constant.SessionConstants;
 import p.khj745700.coucoupang.application.dao.MemberDao;
+import p.khj745700.coucoupang.application.dao.SessionDao;
 import p.khj745700.coucoupang.application.dto.request.member.LoginRequest;
 import p.khj745700.coucoupang.application.service.member.ILoginService;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class LoginService implements ILoginService {
-    private final HttpSession session;
+    private final SessionDao sessionDao;
     private final MemberDao memberDao;
 
     @Override
@@ -29,15 +30,19 @@ public class LoginService implements ILoginService {
         return false;
     }
 
+    public void loginCheck() {
+        sessionDao.getOrElseThrowException(SessionConstants.USER_ID);
+    }
+
     @Override
     public void logout() {
-        log.trace("remove session: {}", session.getAttribute(SessionConstants.USER_ID));
-        session.removeAttribute(SessionConstants.USER_ID);
+        log.trace("remove session: {}", sessionDao.getNotCheck(SessionConstants.USER_ID));
+        sessionDao.remove(SessionConstants.USER_ID);
     }
 
 
     private void setUserSession(String username) {
-        session.setAttribute(SessionConstants.USER_ID, username);
-        log.trace("create session: {}", session.getAttribute(SessionConstants.USER_ID));
+        sessionDao.put(SessionConstants.USER_ID, username);
+        log.trace("create session: {}", sessionDao.getNotCheck(SessionConstants.USER_ID));
     }
 }

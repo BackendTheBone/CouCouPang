@@ -33,6 +33,10 @@ public class SellerDao {
         return sellerRepository.findById(username);
     }
 
+    public Seller findByUsernameIfNotExistThrowException(String username) {
+        return sellerRepository.findById(username).orElseThrow(ExceptionHandler.NOT_FOUND.apply(username));
+    }
+
     private boolean isExists(Optional<Seller> sellerOptional) {
         return sellerOptional.isPresent();
     }
