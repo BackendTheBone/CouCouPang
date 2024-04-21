@@ -4,7 +4,8 @@ import org.springframework.http.HttpStatus;
 
 public enum ExceptionConstants {
     USER_NOT_FOUND("사용자를 찾을 수 없습니다", HttpStatus.NOT_FOUND),
-    USER_DUPLICATE("이미 기존에 사용자가 존재합니다.", HttpStatus.FORBIDDEN);
+    USER_DUPLICATE("이미 기존에 사용자가 존재합니다.", HttpStatus.FORBIDDEN),
+    SESSION_VALUE_NOT_EXIST("세션이 불안정합니다.", HttpStatus.NOT_FOUND);
 
     private final String message;
     private final HttpStatus status;

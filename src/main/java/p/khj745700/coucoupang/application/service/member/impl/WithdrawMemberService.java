@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import p.khj745700.coucoupang.application.config.constant.SessionConstants;
 import p.khj745700.coucoupang.application.dao.MemberDao;
 import p.khj745700.coucoupang.application.dao.SellerDao;
+import p.khj745700.coucoupang.application.dao.SessionDao;
 import p.khj745700.coucoupang.application.domain.member.Member;
 import p.khj745700.coucoupang.application.service.member.IWithdrawMemberService;
 
@@ -16,12 +17,12 @@ public class WithdrawMemberService implements IWithdrawMemberService {
 
     private final MemberDao memberDao;
     private final SellerDao sellerDao;
-    private final HttpSession session;
+    private final SessionDao sessionDao;
 
     @Override
     public boolean withdrawMemberWithSessionCheck(String username) {
-        if(!session.getAttribute(SessionConstants.USER_ID).equals(username)) {
-            session.removeAttribute(SessionConstants.USER_ID);
+        if(!username.equals(sessionDao.getNotCheck(SessionConstants.USER_ID))) {
+            sessionDao.removeAll();
             return false;
         }
         return withdrawMember(username);

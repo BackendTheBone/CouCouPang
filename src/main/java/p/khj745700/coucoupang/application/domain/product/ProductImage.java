@@ -5,30 +5,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import p.khj745700.coucoupang.application.domain.common.CommonEntity;
-import p.khj745700.coucoupang.application.domain.member.Member;
-import p.khj745700.coucoupang.application.domain.member.Seller;
+import p.khj745700.coucoupang.application.domain.img.Image;
 
 @Entity
 @Table
 @NoArgsConstructor
-@Getter
 @SuperBuilder
-public class ProductDescription extends CommonEntity {
+@Getter
+public class ProductImage extends CommonEntity {
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     @Column
-    private String name;
-
-    @Column
-    private String description;
+    private Long id;
 
     @JoinColumn
     @ManyToOne
-    private Seller seller;
+    private Product product;
+
+    @JoinColumn
+    @ManyToOne
+    private Image image;
 
     @Column
-    private String color;
+    private Integer order;
 }
