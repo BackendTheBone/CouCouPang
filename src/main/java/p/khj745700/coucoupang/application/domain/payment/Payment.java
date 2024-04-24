@@ -1,33 +1,26 @@
 package p.khj745700.coucoupang.application.domain.payment;
 
-
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import p.khj745700.coucoupang.application.domain.common.CommonEntity;
 import p.khj745700.coucoupang.application.domain.member.Member;
-import p.khj745700.coucoupang.application.domain.member.Seller;
 
 @Entity
-@Table
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
 public class Payment extends CommonEntity {
+
     @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String paymentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "payment_id")
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn
-    private Member buyer;
-
-    @ManyToOne
-    @JoinColumn
-    private Seller seller;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username")
+    private Member member;
 
 }
-
