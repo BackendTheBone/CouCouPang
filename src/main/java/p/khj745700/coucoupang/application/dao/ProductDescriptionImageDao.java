@@ -14,6 +14,7 @@ import p.khj745700.coucoupang.application.exception.CustomException;
 import p.khj745700.coucoupang.application.exception.DuplicateMemberException;
 import p.khj745700.coucoupang.application.exception.NotFoundMemberException;
 
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -25,6 +26,14 @@ public class ProductDescriptionImageDao {
 
     public ProductDescriptionImage save(ProductDescriptionImage productDescriptionImage) {
         return productDescriptionImageRepository.save(productDescriptionImage);
+    }
+
+    public List<ProductDescriptionImage> findAllByProductDescriptionId(Long productDescriptionId) {
+        return productDescriptionImageRepository.findByProductDescription_Id(productDescriptionId);
+    }
+
+    public void remove(Long productDescriptionImageId) {
+        productDescriptionImageRepository.deleteById(productDescriptionImageId);
     }
 
     @Getter

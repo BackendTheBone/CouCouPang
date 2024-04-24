@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import p.khj745700.coucoupang.application.domain.common.CommonEntity;
+import p.khj745700.coucoupang.application.domain.common.SoftDeleteEntity;
 import p.khj745700.coucoupang.application.domain.img.Image;
 
 @Entity
@@ -12,7 +15,9 @@ import p.khj745700.coucoupang.application.domain.img.Image;
 @NoArgsConstructor
 @SuperBuilder
 @Getter
-public class ProductImage extends CommonEntity {
+@SQLDelete(sql ="UPDATE product_image SET is_deleted = true WHERE id = ?")
+@Where(clause = "WHERE is_delete = false ")
+public class ProductImage extends SoftDeleteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -23,7 +28,7 @@ public class ProductImage extends CommonEntity {
     private Product product;
 
     @JoinColumn
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Image image;
 
     @Column

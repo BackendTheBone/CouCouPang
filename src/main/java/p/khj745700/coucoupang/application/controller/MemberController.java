@@ -23,7 +23,7 @@ public class MemberController {
 
     @DeleteMapping("/{username}")
     public ResponseEntity<?> memberWithdraw(@PathVariable(name = "username") String username) {
-        if(withdrawMemberService.withdrawMemberWithSessionCheck(username)) {
+        if (withdrawMemberService.withdrawMemberWithSessionCheck(username)) {
             return NO_CONTENT;
         }
         return UNAUTHORIZED;
