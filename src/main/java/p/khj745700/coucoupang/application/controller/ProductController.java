@@ -22,12 +22,14 @@ public class ProductController {
     private final IModifyProductService modifyProductService;
 
     @PostMapping("")
+    @PreAuth(MemberType.SELLER)
     public ResponseEntity<?> productAdd(@RequestBody ProductRegisterRequest request) {
         Long createdId = registerProductService.addProduct(request);
         return ResponseEntity.created(URI.create("/product/" + createdId)).build();
     }
 
     @PatchMapping("")
+    @PreAuth(MemberType.SELLER)
     public ResponseEntity<?> productModify(@RequestBody ProductModifyRequest request) {
         modifyProductService.modifyProduct(request);
         return ResponseEntity.ok().build();
