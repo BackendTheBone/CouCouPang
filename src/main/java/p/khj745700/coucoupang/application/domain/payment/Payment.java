@@ -1,17 +1,15 @@
 package p.khj745700.coucoupang.application.domain.payment;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 import p.khj745700.coucoupang.application.domain.common.CommonEntity;
 import p.khj745700.coucoupang.application.domain.member.Member;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SuperBuilder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class Payment extends CommonEntity {
 
     @Id
