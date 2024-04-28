@@ -27,6 +27,7 @@ public class RegisterPaymentService implements IRegisterPaymentService {
     @Transactional
     public Long register(List<RegisterPaymentRequest> requests, Member member) {
 
+        // 결제상품 리스트 생성
         List<PayProduct> payProducts = new ArrayList<>();
 
         // 결제 생성
@@ -46,6 +47,9 @@ public class RegisterPaymentService implements IRegisterPaymentService {
         // 결제 처리
         try {
             paymentDao.processPayment(payment);
+            for (PayProduct payProduct : payProducts) {
+                payProduct.processPayment();
+            }
         } catch (PaymentFailedException e) {
             for (PayProduct payProduct : payProducts) {
                 payProduct.cancel();

@@ -45,6 +45,10 @@ public class PayProduct extends CommonEntity {
         product.removeStock(count);
     }
 
+    public void processPayment() {
+        status = PayProductStatus.PREPARING;
+    }
+
     public void cancel() {
         getProduct().addStock(count);
         status = PayProductStatus.CANCELED;
