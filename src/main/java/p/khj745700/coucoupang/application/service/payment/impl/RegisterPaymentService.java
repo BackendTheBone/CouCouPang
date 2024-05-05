@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class RegisterPaymentService implements IRegisterPaymentService {
 
@@ -24,7 +24,6 @@ public class RegisterPaymentService implements IRegisterPaymentService {
     IRegisterPayProductService registerPayProductService;
 
     @Override
-    @Transactional
     public Long register(List<RegisterPaymentRequest> requests, Member member) {
 
         // 결제상품 리스트 생성
@@ -48,11 +47,11 @@ public class RegisterPaymentService implements IRegisterPaymentService {
         try {
             paymentDao.processPayment(payment);
             for (PayProduct payProduct : payProducts) {
-                payProduct.processPayment();
+                payProduct.preparing();
             }
         } catch (PaymentFailedException e) {
             for (PayProduct payProduct : payProducts) {
-                payProduct.cancel();
+                payProduct.canceled();
             }
         }
 
