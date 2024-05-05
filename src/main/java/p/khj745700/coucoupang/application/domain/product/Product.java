@@ -58,18 +58,17 @@ public class Product extends CommonEntity {
         }
     }
 
-    public void addStock(Integer count) {
-        this.stock += count;
+    public void addStock(Integer quantity) {
+        this.stock += quantity;
     }
 
-    public Integer removeStock(Integer count) {
+    public Integer removeStock(Integer quantity) {
 
         validStateToSelling(this.state);
 
-        int maximumAllowableCount = Math.min(count, this.stock);
-        this.stock -= maximumAllowableCount;
-
-        return maximumAllowableCount;
+        int maximumAllowableQuantity = Math.min(this.stock, quantity);
+        this.stock -= maximumAllowableQuantity;
+        return maximumAllowableQuantity;
     }
 
     private void validStateToSelling(ProductState newProductState) {
