@@ -10,10 +10,13 @@ public enum ExceptionConstants {
     PRODUCT_NOT_FOUND("상품을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     PRODUCT_NOT_EQUALS_SELLER("판매자와 다릅니다.", HttpStatus.FORBIDDEN),
     PRODUCT_STATE_CANT_SELL("상품 재고가 부족해 판매할 수 없습니다.", HttpStatus.FORBIDDEN),
-    PRODUCT_DESCRIPTION_NOT_FOUND("상품 설명을 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
+    PRODUCT_DESCRIPTION_NOT_FOUND("상품 설명을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    PAY_PRODUCT_NOT_FOUND("결제상품을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    PAY_PRODUCT_ALREADY_SHIPPED("결제상품이 이미 배송되었습니다.", HttpStatus.BAD_REQUEST);
 
     private final String message;
     private final HttpStatus status;
+
     ExceptionConstants(String exceptionMessage, HttpStatus status) {
         message = exceptionMessage;
         this.status = status;

@@ -46,13 +46,29 @@ public class PayProduct extends CommonEntity {
         this.status = PayProductStatus.PAYMENT_WAITING;
     }
 
-    public void processPayment() {
-        status = PayProductStatus.PREPARING;
+    public void paymentWaiting() {
+        this.status = PayProductStatus.PAYMENT_WAITING;
     }
 
-    public void cancel() {
+    public void preparing() {
+        this.status = PayProductStatus.PREPARING;
+    }
+
+    public void shipped() {
+        this.status = PayProductStatus.SHIPPED;
+    }
+
+    public void delivering() {
+        this.status = PayProductStatus.DELIVERING;
+    }
+
+    public void deliveryCompleted() {
+        this.status = PayProductStatus.DELIVERY_COMPLETED;
+    }
+
+    public void canceled() {
         getProduct().addStock(count);
-        status = PayProductStatus.CANCELED;
+        this.status = PayProductStatus.CANCELED;
     }
 
 }
