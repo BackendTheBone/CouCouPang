@@ -3,7 +3,10 @@ package p.khj745700.coucoupang.application.service.payment.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import p.khj745700.coucoupang.application.config.constant.SessionConstants;
+import p.khj745700.coucoupang.application.dao.MemberDao;
 import p.khj745700.coucoupang.application.dao.PaymentDao;
+import p.khj745700.coucoupang.application.dao.SessionDao;
 import p.khj745700.coucoupang.application.domain.member.Member;
 import p.khj745700.coucoupang.application.domain.payment.Payment;
 import p.khj745700.coucoupang.application.domain.payment.product.PayProduct;
@@ -21,13 +24,19 @@ import java.util.List;
 public class RegisterPaymentService implements IRegisterPaymentService {
 
     PaymentDao paymentDao;
+    SessionDao sessionDao;
+    MemberDao memberDao;
     IRegisterPayProductService registerPayProductService;
 
     @Override
-    public Long register(List<RegisterPaymentRequest> requests, Member member) {
+    public Long register(List<RegisterPaymentRequest> requests) {
 
         // 결제상품 리스트 생성
         List<PayProduct> payProducts = new ArrayList<>();
+
+        // 사용자 조회
+        String userName = sessionDao.getNotCheck(SessionConstants.USER_ID);
+        Member member = memberDao.getById(userName);
 
         // 결제 생성
         Payment payment = Payment.builder()
