@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import p.khj745700.coucoupang.application.domain.common.CommonEntity;
 import p.khj745700.coucoupang.application.domain.common.SoftDeleteEntity;
 
 @Entity
@@ -11,7 +12,7 @@ import p.khj745700.coucoupang.application.domain.common.SoftDeleteEntity;
 @Getter
 @NoArgsConstructor
 @SuperBuilder
-public class Image extends SoftDeleteEntity {
+public class Image extends CommonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

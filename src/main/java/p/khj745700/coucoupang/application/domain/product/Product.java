@@ -5,8 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import p.khj745700.coucoupang.application.domain.common.CommonEntity;
 import p.khj745700.coucoupang.application.domain.member.Seller;
+import p.khj745700.coucoupang.application.exception.ProductNotEqualsSellerException;
+import p.khj745700.coucoupang.application.exception.ProductStateCantSellException;
 
 @Entity
 @Table
@@ -37,12 +40,29 @@ public class Product extends CommonEntity {
     @ManyToOne
     private Seller seller;
 
-    public void addStock(int count) {
-        this.stock += count;
+    public void validSameSeller(Seller seller) {
+        if (!this.seller.equals(seller)) {
+            throw new ProductNotEqualsSellerException();
+        }
     }
 
-    public void removeStock(int count) {
-        this.stock -= count;
+    public void modifyProduct(Product modifyTarget) {
+        if (modifyTarget.stock != null) {
+            stock += modifyTarget.stock;
+        }
+        if (modifyTarget.state != null) {
+            validStateToSelling(modifyTarget.state);
+            state = modifyTarget.getState();
+        }
+        if (modifyTarget.price != null) {
+            this.price = modifyTarget.price;
+        }
     }
 
+
+    private void validStateToSelling(ProductState newProductState) {
+        if (stock == 0 && newProductState.equals(ProductState.SELLING)) {
+            throw new ProductStateCantSellException();
+        }
+    }
 }
