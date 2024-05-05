@@ -36,13 +36,14 @@ public class PayProduct extends CommonEntity {
 
     @Builder
     private PayProduct(Payment payment, Product product, Integer count) {
+
+        Integer maximumAllowableCount = product.removeStock(count);
+
         this.payment = payment;
         this.product = product;
-        this.count = count;
+        this.count = maximumAllowableCount;
         this.price = product.getPrice() * count;
         this.status = PayProductStatus.PAYMENT_WAITING;
-
-        product.removeStock(count);
     }
 
     public void processPayment() {

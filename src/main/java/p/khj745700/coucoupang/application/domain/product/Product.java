@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 import p.khj745700.coucoupang.application.domain.common.CommonEntity;
 import p.khj745700.coucoupang.application.domain.member.Seller;
 import p.khj745700.coucoupang.application.exception.ProductNotEqualsSellerException;
@@ -59,10 +58,24 @@ public class Product extends CommonEntity {
         }
     }
 
+    public void addStock(Integer count) {
+        this.stock += count;
+    }
+
+    public Integer removeStock(Integer count) {
+
+        validStateToSelling(this.state);
+
+        int maximumAllowableCount = Math.min(count, this.stock);
+        this.stock -= maximumAllowableCount;
+
+        return maximumAllowableCount;
+    }
 
     private void validStateToSelling(ProductState newProductState) {
         if (stock == 0 && newProductState.equals(ProductState.SELLING)) {
             throw new ProductStateCantSellException();
         }
     }
+
 }
